@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
-import getGotCharacter from '../../services/gotAPI';
+import characterReducer from './characterReducer';
 
-const rootReducer = combineReducers({getGotCharacter});
+
+const rootReducer = combineReducers({characterReducer});
 
 export default rootReducer;

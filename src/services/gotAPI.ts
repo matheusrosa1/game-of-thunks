@@ -1,4 +1,4 @@
-const getGotCharacter = async (nameOfCharacter: string) => {
+/* const getGotCharacter = async (nameOfCharacter: string) => {
   const response = await fetch(`https://anapioficeandfire.com/api/characters?name=${nameOfCharacter}`);
   const data = await response.json();
 
@@ -6,3 +6,4 @@ const getGotCharacter = async (nameOfCharacter: string) => {
 };
 
 export default getGotCharacter;
+ */

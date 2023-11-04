@@ -1,36 +1,29 @@
-import getGotCharacter from "../../services/gotAPI";
-import { Dispatch } from "../../type";
+// src/redux/actions/index.ts
 
-export const REQUEST_CHARACTER_START = 'REQUEST_CHARACTER_START';
-export const REQUEST_CHARACTER_ERROR = 'REQUEST_CHARACTER_ERROR';
-export const REQUEST_CHARACTER_SUCCESS = 'REQUEST_CHARACTER_SUCCESS';
+import { CharacterType, Dispatch } from "../../type";
 
-const requestCharacterStart = () => ({
-  type: REQUEST_CHARACTER_START,
-})
 
-const requestCharacterError = () => ({
-  type: REQUEST_CHARACTER_ERROR,
-})
+export const searchBegin = () => (
+  { type: 'SEARCH_BEGIN' }
+);
 
-const requestCharacterSuccess = (name: string, titles: string[], aliases: string, culture: string) => ({
-  type: REQUEST_CHARACTER_START,
-  payload: {
-    name,
-    titles,
-    aliases,
-    culture,
-  }
-})
+export const searchSuccess = (character: CharacterType) => (
+  { type: 'SEARCH_SUCCESS', character }
+);
 
-export const fetchCharacter = (nameOfCharacter: string) => {
+export const searchFailure = (error: string) => (
+  { type: 'SEARCH_ERROR', error }
+);
+
+export function fetchCharacter(name: string) {
   return async (dispatch: Dispatch) => {
     try {
-      dispatch(requestCharacterStart());
-const {name, titles, aliases, culture} = await getGotCharacter(nameOfCharacter);
-dispatch(requestCharacterSuccess(name, titles, aliases, culture))
-    } catch (e) {
-      dispatch(requestCharacterError());
+      dispatch(searchBegin());
+      const response = await fetch(`https://anapioficeandfire.com/api/characters?name=${name}`);
+      const data: CharacterType[] = await response.json();
+      dispatch(searchSuccess(data[0]));
+    } catch (error: any) {
+      dispatch(searchFailure(error.message));
     }
-  }
+  };
 }

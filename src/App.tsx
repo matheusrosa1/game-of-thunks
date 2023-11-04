@@ -1,17 +1,34 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 import './App.css'
+import { Dispatch } from './type';
+import { fetchCharacter } from './redux/actions';
+import { useDispatch } from 'react-redux';
+import CharacterCard from './components/CharacterDetails';
 
 function App() {
-  const [count, setCount] = useState(0) //.
+  const [character, setCharacter] = useState('');
+  const dispatch: Dispatch = useDispatch();
 
   return (
-    <>
-    <input></input>
-  <button>Procurar Personagem</button>
-    </>
-  )
+    <div>
+      <input
+        type="text"
+        onChange={ (
+          { target }: React.ChangeEvent<HTMLInputElement>,
+        ) => setCharacter(target.value) }
+        value={ character }
+        placeholder="Character Name"
+      />
+      <button
+        type="button"
+        onClick={ () => dispatch(fetchCharacter(character)) }
+      >
+        Search
+      </button>
+      <CharacterCard />
+    </div>
+  );
 }
 
-export default App
+export default App;
